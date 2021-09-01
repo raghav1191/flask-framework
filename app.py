@@ -21,7 +21,7 @@ def result():
       result = request.form.to_dict(flat=False)
       ticker = (result['ticker'][0])
       metric = (result['metric'][0])
-      apikey = 
+      apikey = '3142324324324'
       url = 'https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol=%s&apikey=%s' % (ticker, apikey)
       r = requests.get(url)
       data = r.json()
