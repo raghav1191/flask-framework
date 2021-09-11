@@ -9,9 +9,11 @@ import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def index():
   return render_template('index.html')
+
 
 @app.route('/getstockinfo')
 def getstockinfo():
@@ -43,6 +45,15 @@ def result():
       plt.savefig('static/images/plot.png')
 
       return render_template('result.html', url ='static/images/plot.png')
+
+
+@app.after_request
+def after_request(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
+
 
 if __name__ == '__main__':
   app.run(port=33507, debug=True)
