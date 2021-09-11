@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, redirect
 import requests
 import pandas as pd
+
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
@@ -15,9 +18,8 @@ def getstockinfo():
   return render_template('getstockinfo.html')
 
 
-@app.route('/result',methods = ['POST', 'GET'])
+@app.route('/result',methods = ['POST'])
 def result():
-   if request.method == 'POST':
       result = request.form.to_dict(flat=False)
       ticker = (result['ticker'][0])
       metric = (result['metric'][0])
@@ -37,9 +39,10 @@ def result():
       else:
         a = df['4. close']
       
-      plot = plt.plot(a)
+      plt.plot(a)
+      plt.savefig('static/images/plot.png')
 
-      return render_template("result.html")
+      return render_template('result.html', url ='static/images/plot.png')
 
 if __name__ == '__main__':
-  app.run(port=33507)
+  app.run(port=33507, debug=True)
